@@ -9,18 +9,18 @@ class SpaceClass:
     def __str__(self):
       return f"{self.id} :: {self.free} :: {self.car}"
     
-    def alocateCar(self, car):
+    def alocate_car(self, car):
         if(self.free):
           self.car = car
-          self.free = False
+          self.free = "Ocupado"
           return True
         else:
           return False
 
-    def desalocateCar(self, car):
+    def desalocate_car(self, car):
         if(self.car == car):
           self.car = "Sem carro"
-          self.free = True
+          self.free = "livre"
           return True
         else:
           return False
