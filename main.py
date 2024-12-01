@@ -8,6 +8,7 @@ divider = "-------------------------------------------"
 
 def list_cars(car_list):
     print(f"Lista de Carros: ")
+    print(f"Carro :: Vaga Favorita")
     for car in car_list:
       print(car)
     print(f"{divider}")
@@ -30,7 +31,6 @@ def connect_agents(car_list, parking_controller, park_env, parking_channel):
 if __name__== "__main__":
     # Inicia o ambiente
     park_env = ParkingEnviroment("PE")
-    print(park_env)
     # Cria as vagas inicias com id sequenciais, até o valor "num"
     spaces_num = 4
     park_env.create_many_spaces(spaces_num)
@@ -43,21 +43,13 @@ if __name__== "__main__":
     agent_quantity = 15
     create_agents(agent_quantity, spaces_num)
     # Conecta os agentes com o ambiente
-    parking_channel = Channel("Estacionamento")
+    # parking_channel = Channel("Estacionamento")
     # connect_agents(car_list, parking_controller, park_env, parking_channel)
     Admin().connect_to(parking_controller, park_env)
     for i in range(len(car_list)):
       Admin().connect_to(car_list[i], park_env)
     # Mostra a lista de carros
     list_cars(car_list)
-    # testes
-    # park_env.alocate_car(car_list[0],3)
-    # print(park_env)
-    # park_env.alocate_car(car_list[1],3)
-    # print(park_env)
-    # park_env.desalocate_car(car_list[1])
-
-    # park_env.desalocate_car(car_list[0])
     #Inicia o sistema
     Admin().start_system()
 

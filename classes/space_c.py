@@ -7,7 +7,7 @@ class SpaceClass:
         self.car = "Sem Carro"
 
     def __str__(self):
-      return f"{self.id} :: {self.free} :: {self.car}"
+      return f"{self.id+1} :: {self.free} :: {self.car}"
     
     def alocate_car(self, car):
         if(self.free):
