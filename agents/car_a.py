@@ -35,15 +35,28 @@ class CarAgent(Agent):
     sleep(sleep_time)
     self.send("PA",achieve,Goal("InformarFavorita", local_favorito))
   
+  @pl(gain,Belief("vaga livre",("VagaID")))
+  def choice_other_space(self,src,park_space):
+    choice = rand.randint(0,1)
+    if(choice):
+      # print(f"{self.str_name} aceitou a Vaga {park_space}")
+      self.print(f"aceitou a Vaga {park_space}")
+      self.add(Goal("estacionar",park_space))
+    else:
+      # print(f"{self.str_name} recusou a Vaga {park_space}")
+      self.print(f"recusou a Vaga {park_space}")
+      self.add(Goal("sair"))
+
   @pl(gain,Goal("estacionar","Vaga"))
   def park(self,src,park_space):
     succes = self.action("PE").alocate_car(self, park_space)
     if succes:
-      print(f"{self.str_name} estacionou na Vaga {park_space}")
+      # print(f"{self.str_name} estacionou na Vaga {park_space}")
+      self.print(f"estacionou na Vaga {park_space}")
       print("")
       # self.action("PE").__str__()
     else:
-      print(f"Vaga {park_space} estava ocupada")
+      # print(f"Vaga {park_space} estava ocupada")
       print("")
     sleep(rand.randrange(3, 20))
     self.add(Goal("sair"))
@@ -55,7 +68,7 @@ class CarAgent(Agent):
   @pl(gain,Goal("sair"))
   def quit_park(self, src):
     self.action("PE").desalocate_car(self)
-    print(f"{self.str_name} Saiu do estacionamento")
+    self.print(f"Saiu do estacionamento")
     self.stop_cycle()
     # print(self.action("PE").__str__())
 

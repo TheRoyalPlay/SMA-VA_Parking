@@ -20,10 +20,10 @@ class ParkingAgent(Agent):
     def inform_free(self,src):
         print(f"{src} solicitou qualquer vaga")
         free_space_id = self.action("PE").get_free_space()
-        if free_space_id[1] == "livre":
-            # print(free_space_id)
-            # self.action("PE").alocate_car(src, free_space_id)
-            self.send(src,achieve,Goal("estacionar",free_space_id[0]))
+        if free_space_id:
+          # print(free_space_id)
+          # self.action("PE").alocate_car(src, free_space_id)
+          self.send(src,achieve,Goal("estacionar",free_space_id[0]))
         else: 
           self.send(src,tell,Belief("sem vagas"))
           self.print("Sem vaga livre")
@@ -37,12 +37,13 @@ class ParkingAgent(Agent):
           self.send(src,achieve,Goal("estacionar",fav_space))
 
         else:
-          print(f"Vaga {fav_space} esta ocupada")
+          # print(f"Vaga {fav_space} esta ocupada")
+          self.print(f"Vaga {fav_space} esta ocupada")
           print("")
           free_space_id = self.action("PE").get_free_space()
           if free_space_id:
             print(f"Vaga {free_space_id[0]} esta livre para {src} ")
-            self.send(src,achieve,Goal("estacionar",free_space_id[0]))
+            self.send(src,tell,Belief("vaga livre",(free_space_id[0])))
           else:
             self.send(src,tell,Belief("sem vagas"))
             self.print("Sem vaga livre")

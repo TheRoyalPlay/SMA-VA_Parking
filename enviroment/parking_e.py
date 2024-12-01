@@ -38,6 +38,7 @@ class ParkingEnviroment(Environment):
             # print("")
             return True
           else:
+             print(f"Vaga {park_space_id} nao esta livre")
              return False
         else:
           print(f"Vaga {park_space_id} nao esta livre")
@@ -52,7 +53,6 @@ class ParkingEnviroment(Environment):
             self.park_space_list[park_space.args[0]].desalocate_car(agt.str_name)
             return True
         else:
-            print(f"Carro {agt.str_name} nao esta estacionado")
             return False
 
     def verify_car_parking(self, agt, park_space_id):
@@ -73,7 +73,7 @@ class ParkingEnviroment(Environment):
 
     def get_free_space(self):
         park_space = self.get(Percept("vaga",("ID","livre")))
-        if park_space:
+        if park_space.args[1] == "livre":
            return park_space.args
         else:
            return False
