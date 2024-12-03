@@ -24,39 +24,34 @@ class ParkingEnviroment(Environment):
         self.park_space_list.append(SpaceClass(i))
 
     def alocate_car(self, agt, park_space_id):
-        # free = 
         park_space = self.get(Percept("vaga",(park_space_id,"livre")))
         if park_space:
-          # print(f"park_space = {park_space}")
           if park_space.args[1] == "livre":
             self.change(park_space,(park_space_id,agt.str_name))
             self.park_space_list[park_space_id].alocate_car(agt.str_name)
             return True
           else:
-             print(f"Ambiente({self._my_name}) :: Vaga {park_space_id} nao esta livre    ")
+             print(f"Ambiente({self._my_name}) :: Vaga {park_space_id+1} nao esta livre    ")
              return False
         else:
-          print(f"Ambiente({self._my_name}) :: Vaga {park_space_id} nao esta livre    ")
+          print(f"Ambiente({self._my_name}) :: Vaga {park_space_id+1} nao esta livre    ")
           return False
         
     def desalocate_car(self, agt):
-        park_space = self.get(Percept("vaga",("ID",agt)))
-        if park_space:
-          if park_space.args[1] == agt.str_name:
-            self.change(park_space,(park_space.args[0],"livre"))
-            print(f"Ambiente({self._my_name}) :: Carro {agt.str_name} saiu da vaga {park_space.args[0]+1}    ")
-            self.park_space_list[park_space.args[0]].desalocate_car(agt.str_name)
-            return True
-          else:
-            # print(f"park_space.args[1] == {park_space.args[1]}")
-            # print(f"agt.str_name == {agt.str_name}")
-            # self.change(park_space,(park_space.args[0],"livre"))
-            # print(f"{self}:: Carro {agt.str_name} saiu da vaga {park_space.args[0]+1}")
-            # self.park_space_list[park_space.args[0]].desalocate_car(agt.str_name)
-            return True
-        else:
-            return False
-
+        success = False
+        for i in range(len(self.park_space_list)):
+          print(agt)
+          park_space = self.get(Percept("vaga",(i,agt)))
+          if park_space:
+            if park_space.args[1] == agt.str_name:
+              self.change(park_space,(park_space.args[0],"livre"))
+              print(f"Ambiente({self._my_name}) :: Carro {agt.str_name} saiu da vaga {park_space.args[0]+1}    ")
+              self.park_space_list[park_space.args[0]].desalocate_car(agt.str_name)
+              success = True
+              return success
+        return success
+        
+    #Função não foi usada nos outros códigos
     def verify_car_parking(self, agt, park_space_id):
         car_parking = self.get(Percept("vaga",([park_space_id],[agt])))
         if car_parking:
@@ -85,16 +80,12 @@ class ParkingEnviroment(Environment):
       if len(self.park_space_list) > 0:
         text = (f"\nAmbiente :: {self._my_name}\n")
         text += ("Lista de Vagas:\n")
-        # print(f"Ambiente :: {self._my_name}")
-        # print(f"Lista de Vagas:")
         for park_space in self.park_space_list:
           text += f"Vaga {park_space}\n"
-          # print(f"Vaga {park_space}")
         text += divider
         return f"{text}"
       else:
         text += f"\nAmbiente :: {self._my_name} :: Sem Vagas Criadas"
-        # print(f"Ambiente :: {self._my_name} :: Sem Vagas Criadas")
         text += divider
         return f"{text}"
 

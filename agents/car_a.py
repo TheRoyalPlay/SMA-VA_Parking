@@ -41,23 +41,22 @@ class CarAgent(Agent):
       print(f"Agente({self.str_name}) :: Aceitou a Vaga {park_space+1}    ")
       self.add(Goal("estacionar",park_space))
     else:
-      print(f"Agente({self.str_name}) :: Recusou a Vaga {park_space}    ")
+      print(f"Agente({self.str_name}) :: Recusou a Vaga {park_space+1}    ")
       self.add(Goal("sair"))
 
   @pl(gain,Goal("estacionar","Vaga"))
   def park(self,src,park_space):
     succes = self.action("PE").alocate_car(self, park_space)
     if succes:
-      # print(f"{self.str_name} estacionou na Vaga {park_space}")
       print(f"Agente({self.str_name}) :: Estacionou na Vaga {park_space+1}\n")
       self.action("PE").__str__()
     else:
       print(f"Agente({self.str_name}) :: Vaga {park_space+1} estava ocupada    ")
-    sleep(rand.randrange(3, 20))
+    sleep(rand.randrange(3, 5))
     self.add(Goal("sair"))
 
   @pl(gain,Belief("sem vagas"))
-  def no_spaces(self,src):
+  def no_space(self,src):
     self.add(Goal("sair"))
 
   @pl(gain,Goal("sair"))
@@ -65,7 +64,6 @@ class CarAgent(Agent):
     self.action("PE").desalocate_car(self)
     print(f"Agente({self.str_name}) :: Saiu do estacionamento\n")
     self.stop_cycle()
-    # print(self.action("PE").__str__())
 
   def __str__(self):
     fav = self.get_fav()

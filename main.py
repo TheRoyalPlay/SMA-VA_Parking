@@ -18,16 +18,6 @@ def create_agents(agent_quantity, spaces_num):
       fav_space = rand.randrange(-1, spaces_num) # (-1) sigfica falta de favoritismo
       car_list.append(CarAgent("CAR",fav_space))
 
-
-def connect_agents(car_list, parking_controller, park_env, parking_channel):
-    # Admin().connect_to(parking_controller,[park_env, parking_channel])
-    Admin().connect_to(parking_controller,park_env)
-    Admin().connect_to(parking_controller,parking_channel)
-    for car in car_list:
-      # Admin().connect_to(car,[park_env, parking_channel])
-      Admin().connect_to(car, park_env)
-      Admin().connect_to(car, parking_channel)
-
 if __name__== "__main__":
     # Inicia o ambiente
     park_env = ParkingEnviroment("PE")
